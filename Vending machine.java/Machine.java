@@ -1,33 +1,43 @@
 public class Machine {
-
     private Item[][] items;
 
-    public Machine(Item[][] items){
-        this.items=new Item[items.length][items[0].length];
+    public Machine(Item[][] items) {
+        this.items = new Item[items.length][items[0].length];
         for (int i = 0; i < items.length; i++) {
             for (int j = 0; j < items[i].length; j++) {
-                this.items[i][j]=new Item(items[i][j]);
-            } 
+                this.items[i][j] = new Item(items[i][j]);
+            }
         }
     }
-
-
-    public Item getItems(int row , int spot) {
+    
+    public Item getItem(int row, int spot) {
         return new Item(this.items[row][spot]);
     }
-
-    public void setItems(Item item , int row , int sopt) {
-        this.items[row][sopt] = new Item(item);
+    
+    public void setItem(Item item, int row, int spot) {
+        this.items[row][spot] = new Item(item);
     }
 
-    public boolean dispense(int row, int spot){
-        if(this.items[row][spot].getQuantity()>0){
-            this.items[row][spot].setQuantity(items[row][spot].getQuantity()-1);
-            return true;
+    public void buyItem(int row, int spot) {
+        if (items[row][spot].getQuantity() == 0) {
+            throw new IllegalArgumentException("cannot dispense an item with quantity: 0");
         }
-            return false;
+        if (this.items[row][spot].getQuantity() > 0) {
+            items[row][spot].setQuantity(items[row][spot].getQuantity() - 1);
+        } 
     }
 
+    public void addItem(int row, int spot,int quantity){
+        items[row][spot].setQuantity(items[row][spot].getQuantity()+quantity);
+    }
+
+    public int getLength() {
+        return this.items.length;
+    }
+
+    public int getRowLength() {
+        return this.items[0].length;
+    }
 
     public String toString() {
         String temp = "";
